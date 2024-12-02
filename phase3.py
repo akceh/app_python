@@ -15,12 +15,12 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from logging_utils import log_interaction
 from phase4 import DataQualityAgent, VariableSelectionAgent, UnivariateAnalysisAgent, CorrelationAnalysisAgent, SegmentationAgent, ModelingAgent,PreprocessingAgent
+from dotenv import load_dotenv
+import os
 
-# Load configuration
-def load_config():
-    with open("config/config.yaml", "r") as file:
-        config = yaml.safe_load(file)
-    return config["OPENAI_API_KEY"], config["ASSISTANT_ID"]
+
+openai_api_key = os.getenv("OPENAI_API_KEY")
+assistant_id = os.getenv("ASSISTANT_ID")
 
 # Database functions
 def get_db_connection():
@@ -221,8 +221,7 @@ def data_quality_page():
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
-    openai_api_key, assistant_id = load_config()
-    openai.api_key = openai_api_key
+
 
     client = openai.OpenAI(api_key=openai_api_key)
 
@@ -301,8 +300,6 @@ def get_project_data(project_id):
 
 
 def define_project_parameters():
-    openai_api_key, assistant_id = load_config()
-    openai.api_key = openai_api_key
 
     # Retrieve the project_id from session state
     project_id = st.session_state.get("project_id")
@@ -400,8 +397,6 @@ def define_project_parameters():
 
  # Button to get assistant's response for each parameter
 def get_assistant_response(content, parameter_name):
-    openai_api_key, assistant_id = load_config()
-    openai.api_key = openai_api_key
     with st.spinner(f"🔄 Demande en cours pour {parameter_name}..."):
         client = openai.OpenAI(api_key=openai_api_key)
         thread = client.beta.threads.create()
@@ -450,9 +445,6 @@ def get_assistant_response(content, parameter_name):
 
 
 def data_availability_page():
-    openai_api_key, assistant_id = load_config()
-    openai.api_key = openai_api_key
-
     st.title("📁 Données disponibles")
 
     # Step 1: Input for data availability
