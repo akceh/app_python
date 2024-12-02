@@ -21,20 +21,15 @@ import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.metrics import confusion_matrix
-
-
-
+from dotenv import load_dotenv
+import os
 
 # Load configuration
-def load_config():
-    with open("config/config.yaml", "r") as file:
-        config = yaml.safe_load(file)
-    return config["OPENAI_API_KEY"], config["ASSISTANT_ID"]
+openai_api_key = os.getenv("OPENAI_API_KEY")
+assistant_id = os.getenv("ASSISTANT_ID")
 
 def query_openai(prompt):
     # Load API key from config
-    openai_api_key, _ = load_config()
-
     # Initialize OpenAI client
     client = OpenAI(api_key=openai_api_key)
 
