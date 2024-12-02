@@ -4,22 +4,21 @@ import yaml
 from time import sleep
 import re
 from phase3 import data_quality_page
+from dotenv import load_dotenv
+import os
 from phase3 import define_project_parameters,data_availability_page
 from logging_utils import log_interaction
 # Import your agents and utility functions from phase4
 from phase4 import DataQualityAgent, VariableSelectionAgent, UnivariateAnalysisAgent
-from phase4 import CorrelationAnalysisAgent, SegmentationAgent, ModelingAgent, load_config, query_openai
+from phase4 import CorrelationAnalysisAgent, SegmentationAgent, ModelingAgent
 from new_project import insert_project_data
 
-# Load the API key and assistant ID from config.yaml
-def load_config():
-    with open("config/config.yaml", "r") as file:
-        config = yaml.safe_load(file)
-    return config["OPENAI_API_KEY"], config["ASSISTANT_ID"]
+# Charger les variables du fichier .env
+load_dotenv()
 
 # Initialize OpenAI API key and assistant ID
-openai_api_key, assistant_id = load_config()
-openai.api_key = openai_api_key
+openai_api_key = os.getenv("OPENAI_API_KEY")
+assistant_id = os.getenv("ASSISTANT_ID")
 
 # Initialize session state for page navigation and greetings
 if "current_page" not in st.session_state:
